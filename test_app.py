@@ -1,5 +1,6 @@
 import pytest
 from app import app
+from src.image_generator import ImageGenerator
 import json
 import os
 
@@ -38,7 +39,7 @@ def test_webhook(client):
         os.remove(image_path)
 
 def test_generate_image():
-    from app import generate_image
+    generator = ImageGenerator()
     
     responses = {
         "palette_question_id": "blue_palette",
@@ -47,7 +48,7 @@ def test_generate_image():
         "user_id": "test_user"
     }
     
-    image_path = generate_image(responses)
+    image_path = generator.generate_image(responses)
     assert os.path.exists(image_path)
 
     # Удаление тестового изображения после проверки

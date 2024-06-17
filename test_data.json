@@ -1,0 +1,59 @@
+{
+  "raw": [
+    {"q": "xBs13gs2Cc", "a": "aFAgGIFHG2"},
+    {"q": "cd48Kd4L6w", "a": "SM0ITx3p67"},
+    {"q": "2E77C4kjDp", "a": "SM0ITx3p67"},
+    {"q": "6cekroCA2l", "a": "SM0ITx3p67"},
+    {"q": "aMIabmjohF", "a": "SM0ITx3p67"},
+    {"q": "77jdGaUdDU", "a": "SM0ITx3p67"},
+    {"q": "pQS4AmJc48", "a": "SM0ITx3p67"},
+    {"q": "4l15mx2fdD", "a": "SM0ITx3p67"},
+    {"q": "74Xuhhx248", "a": "SM0ITx3p67"},
+    {"q": "sf1Ys261rc", "a": "SM0ITx3p67"},
+    {"q": "bT7n4PNjGH", "a": "TOf58INhWC"},
+    {"q": "8fQva5o0Ov", "a": "SM0ITx3p67"}
+  ],
+  "answers": [
+    {"q": "Выберите Палитру", "t": "images", "a": "1"},
+    {"q": "Выберите Керамогранит", "t": "images", "a": "2"},
+    {"q": "Выберите Пол", "t": "images", "a": "2"},
+    {"q": "Выберите Свет", "t": "images", "a": "2"},
+    {"q": "Выберите Тумбу", "t": "images", "a": "2"},
+    {"q": "Выберите Душ", "t": "images", "a": "2"},
+    {"q": "Выберите Дверь", "t": "images", "a": "2"},
+    {"q": "Выберите Кухню", "t": "images", "a": "2"},
+    {"q": "Выберите Диван", "t": "images", "a": "2"},
+    {"q": "Выберите Стул", "t": "images", "a": "2"},
+    {"q": "Выберите Шторы", "t": "images", "a": "1"},
+    {"q": "Выберите Подушку", "t": "images", "a": "2"}
+  ],
+  "contacts": {
+    "name": "Sergey",
+    "email": "chernyakov.sergey@gmail.com",
+    "phone": "+79111234567"
+  },
+  "quiz": {
+    "id": "66377f58f77e650026c3c7c0",
+    "name": "Скандинавский - Коллаж Дизайна"
+  },
+  "created": "2024-06-17T08:25:37.928Z",
+  "extra": {
+    "href": "https://mrqz.me/66377f58f77e650026c3c7c0",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
+    "lng": "ru",
+    "currency": "RUB",
+    "notify": "now",
+    "timezone": 2,
+    "lang": "ru",
+    "cookies": {
+      "_ga": "GA1.2.1232781627.1718291600",
+      "fingerprint": "f7996cec2f8b67fde6f5f40f08163028"
+    },
+    "ip": "192.109.244.249",
+    "city": "Lodz",
+    "country": "PL"
+  },
+  "form": {
+    "id": "3mLS12nXV8"
+  }
+}
