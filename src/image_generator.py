@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import os
 import json
+import uuid
 
 class ImageGenerator:
     def __init__(self, backgrounds_folder='source_images/background', output_folder='generated_images'):
@@ -102,8 +103,8 @@ class ImageGenerator:
             collage.paste(image, paste_position, image)
 
         collage = collage.convert("RGB")
-        image_filename = "generated_image.png"
-        image_path = os.path.join(self.output_folder, image_filename)
+        unique_filename = f"generated_image_{uuid.uuid4()}.png"
+        image_path = os.path.join(self.output_folder, unique_filename)
         collage.save(image_path)
         
         return image_path
