@@ -1,7 +1,7 @@
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image
 import os
 import json
-import uuid
+import re
 
 class ImageGenerator:
     def __init__(self, backgrounds_folder='source_images/background', output_folder='generated_images'):
@@ -27,10 +27,16 @@ class ImageGenerator:
             return image_path_jpg
         return None
     
-    def generate_image(self, responses):
+    def generate_image(self, responses, phone_number):
         """
         Generates an image collage based on the given responses.
         """
+        # Remove all non-digit characters from phone number
+        phone_number = re.sub(r'\D', '', phone_number)
+        
+        if not phone_number:
+            raise ValueError("Phone number is missing or invalid.")
+
         question_to_folder = {
             "Выберите Палитру": "palette",
             "Выберите Керамогранит": "porcelain",
@@ -103,21 +109,29 @@ class ImageGenerator:
             collage.paste(image, paste_position, image)
 
         collage = collage.convert("RGB")
-        unique_filename = f"generated_image_{uuid.uuid4()}.png"
+
+        version = 1
+        unique_filename = f"{phone_number}_{version}.png"
         image_path = os.path.join(self.output_folder, unique_filename)
+        
+        while os.path.exists(image_path):
+            version += 1
+            unique_filename = f"{phone_number}_{version}.png"
+            image_path = os.path.join(self.output_folder, unique_filename)
+
         collage.save(image_path)
         
         return image_path
 
 def main():
     with open('test_data.json', 'r') as file:
-        test_data = json.load(file)["answers"]
+        test_data = json.load(file)
     
-    test_data_dict = {item['q']: item['a'] for item in test_data}
-    
+    test_data_dict = {item['q']: item['a'] for item in test_data["answers"]}
+    phone_number = test_data["contacts"]["phone"]
+
     generator = ImageGenerator()
-    
-    image_path = generator.generate_image(test_data_dict)
+    image_path = generator.generate_image(test_data_dict, phone_number)
     print(f"Image saved at: {image_path}")
 
 if __name__ == '__main__':

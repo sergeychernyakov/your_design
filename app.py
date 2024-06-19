@@ -1,5 +1,3 @@
-# src/app.py
-
 from flask import Flask, request, jsonify, send_from_directory
 import os
 import logging
@@ -32,9 +30,14 @@ def webhook():
 
         # Extract user responses
         answers = {item['q']: item['a'] for item in data['answers']}
+        
+        # Extract phone number
+        phone_number = data.get('contacts', {}).get('phone', '')
+        if not phone_number:
+            raise ValueError("Phone number is missing or invalid.")
 
         # Generate image
-        image_path = image_generator.generate_image(answers)
+        image_path = image_generator.generate_image(answers, phone_number)
         image_filename = os.path.basename(image_path)
 
         # Return the path to the image or URL

@@ -25,7 +25,10 @@ class TestApp(unittest.TestCase):
                 {"q": "Выберите Стул", "t": "images", "a": "2"},
                 {"q": "Выберите Шторы", "t": "images", "a": "1"},
                 {"q": "Выберите Подушку", "t": "images", "a": "2"}
-            ]
+            ],
+            "contacts": {
+                "phone": "+79111234567"
+            }
         }
 
     def test_index(self):

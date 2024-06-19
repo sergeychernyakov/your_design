@@ -35,7 +35,8 @@ class TestImageGenerator(unittest.TestCase):
         self.assertEqual(image_path, expected_path)
 
     def test_generate_image(self):
-        image_path = self.image_generator.generate_image(self.responses)
+        phone_number = "+79111234567"
+        image_path = self.image_generator.generate_image(self.responses, phone_number)
         self.assertTrue(os.path.exists(image_path))
 
         # Verify that the generated image is a valid image file
