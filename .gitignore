@@ -13,3 +13,4 @@ venv
 .env
 instance/uploads/*
 photos/*
+generated_images/*
