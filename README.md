@@ -26,25 +26,43 @@ your_design/
 
 ## Установка
 
+### Настройка Ubuntu
+
+1. Обновите пакеты и установите необходимые зависимости:
+
+    ```bash
+    sudo apt update
+    sudo apt install -y python3 python3-venv python3-pip git tmux
+    ```
+
+2. Создайте нового пользователя (например, `webuser`):
+
+    ```bash
+    sudo adduser webuser
+    sudo usermod -aG sudo webuser
+    ```
+
+3. Выйдите и войдите под новым пользователем:
+
+    ```bash
+    su - webuser
+    ```
+
 ### Шаг 1: Клонирование репозитория
 
 ```bash
-git clone git@github.com:sergeychernyakov/your_design.git
+git clone https://github.com/sergeychernyakov/your_design.git
 cd your_design
 ```
 
 ### Шаг 2: Создание виртуального окружения
 
 ```bash
-python -m venv venv
+python3 -m venv venv
 ```
 
 ### Шаг 3: Активация виртуального окружения
 
-- На Windows:
-  ```bash
-  venv\Scripts\activate
-  ```
 - На macOS и Linux:
   ```bash
   source venv/bin/activate
@@ -56,17 +74,47 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-## Запуск приложения
+## Запуск приложения с использованием tmux
 
 ### Шаг 1: Запуск Flask приложения
 
-```bash
-python src/app.py
-```
+1. Создайте новый сеанс `tmux`:
 
-### Шаг 2: Проверка статуса приложения
+    ```bash
+    tmux new -s flasksession
+    ```
 
-Откройте браузер и перейдите по адресу `http://localhost:5002`. Вы должны увидеть JSON сообщение:
+2. Внутри сеанса `tmux` запустите Flask приложение:
+
+    ```bash
+    cd ~/your_design
+    source venv/bin/activate
+    python app.py
+    ```
+
+3. Отсоединитесь от сеанса `tmux`, нажав `Ctrl + B`, затем `D`.
+
+### Шаг 2: Запуск ngrok
+
+1. В другом терминале подключитесь к серверу и создайте новый сеанс `tmux`:
+
+    ```bash
+    ssh webuser@89.111.175.202
+    tmux new -s ngroksession
+    ```
+
+2. Внутри сеанса `tmux` запустите ngrok:
+
+    ```bash
+    ngrok http 5002
+    ```
+
+3. Отсоединитесь от сеанса `tmux`, нажав `Ctrl + B`, затем `D`.
+
+### Шаг 3: Проверка статуса приложения
+
+Взять активную ссылку можно здесь: https://dashboard.ngrok.com/cloud-edge/endpoints
+Откройте браузер и перейдите по адресу, например, `https://5ddd-89-111-175-202.ngrok-free.app`. Вы должны увидеть JSON сообщение:
 
 ```json
 {
@@ -74,22 +122,40 @@ python src/app.py
 }
 ```
 
-### Шаг 3: Установка и запуск ngrok
-
-- Скачайте ngrok с [официального сайта](https://ngrok.com/) и установите его.
-- Запустите ngrok, чтобы создать туннель к вашему локальному серверу (замените `5002` на порт вашего Flask-приложения, если он другой):
-
-```bash
-ngrok http 5002
-```
-
-- Скопируйте URL, который предоставляет ngrok (например, `http://abcd1234.ngrok.io`).
-
 ### Шаг 4: Настройка Webhook в квизе
 
 1. Заходим в редактирование квиза из личного кабинета.
 2. Заходим во вкладку «Интеграции» и выбираем Webhooks.
-3. Добавляем хук и вписываем URL, предоставленный ngrok, добавив путь `/webhook`, например, `http://abcd1234.ngrok.io/webhook`.
+3. Добавляем хук и вписываем URL, предоставленный ngrok, добавив путь `/webhook`, например, `https://5ddd-89-111-175-202.ngrok-free.app/webhook`.
+
+## Управление сеансами tmux
+
+### Подключение к сеансу tmux
+
+Чтобы подключиться к уже запущенному сеансу `tmux`, выполните:
+
+```bash
+tmux attach -t flasksession  # для Flask приложения
+tmux attach -t ngroksession  # для ngrok
+```
+
+### Список активных сеансов tmux
+
+Чтобы увидеть список активных сеансов `tmux`, выполните:
+
+```bash
+tmux ls
+```
+
+### Завершение сеанса tmux
+
+Чтобы завершить сеанс `tmux`, подключитесь к нему и завершите все запущенные процессы внутри сеанса, затем закройте сеанс:
+
+```bash
+tmux attach -t <session_name>
+# внутри сеанса остановите процессы, затем закройте сеанс:
+exit
+```
 
 ## Тестирование
 
@@ -126,3 +192,4 @@ python -m src.image_generator
 **generated_images/** — Папка для сохранения сгенерированных изображений.
 
 **source_images/** — Папка для хранения фоновых изображений и других изображений.
+
