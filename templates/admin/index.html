@@ -1,0 +1,43 @@
+<!-- templates/admin/index.html -->
+
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5">Admin Dashboard</h1>
+        <div class="row mt-5">
+            <div class="col-md-8">
+                <h2>Quiz Image Breakdown</h2>
+                <img src="data:image/png;base64,{{ chart_data }}" alt="Pie Chart" class="img-fluid">
+            </div>
+            <div class="col-md-4">
+                <h2>Statistics</h2>
+                <p>Total Users: {{ total_users }}</p>
+                <p>Total Images: {{ total_images }}</p>
+                <p>Total Quizzes: {{ total_quizzes }}</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <h2>Quiz Image Details</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Number of Images</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in quiz_data %}
+                        <tr>
+                            <td>{{ quiz.name }}</td>
+                            <td>{{ quiz.image_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

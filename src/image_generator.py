@@ -1,25 +1,40 @@
+# src/image_generator.py
+
 from PIL import Image
 import os
 import json
 import re
 
 class ImageGenerator:
-    def __init__(self, backgrounds_folder='source_images/background', output_folder='generated_images'):
-        self.backgrounds_folder = backgrounds_folder
-        self.output_folder = output_folder
+    def __init__(self, quiz_id: str, backgrounds_folder: str = 'source_images', output_folder: str = 'generated_images'):
+        """
+        Initializes the ImageGenerator class.
+        
+        :param quiz_id: Identifier for the quiz.
+        :param backgrounds_folder: Base folder path containing source images.
+        :param output_folder: Folder path where generated images will be saved.
+        """
+        self.quiz_id = quiz_id
+        self.backgrounds_folder = os.path.join(backgrounds_folder, quiz_id, 'background')
+        self.output_folder = os.path.join(output_folder, quiz_id)
         os.makedirs(self.output_folder, exist_ok=True)
     
-    def find_image_path(self, folder, palette, answer):
+    def find_image_path(self, folder: str, palette: str, answer: str) -> str:
         """
         Finds the path of the image based on the folder, palette, and answer.
+        
+        :param folder: Folder name.
+        :param palette: Palette identifier.
+        :param answer: Answer identifier.
+        :return: Path to the image file or None if not found.
         """
-        palette_folder = os.path.join('source_images', folder, palette)
+        palette_folder = os.path.join('source_images', self.quiz_id, folder, palette)
         if os.path.exists(palette_folder):
             image_path_png = os.path.join(palette_folder, f"{answer}.png")
             image_path_jpg = os.path.join(palette_folder, f"{answer}.jpg")
         else:
-            image_path_png = os.path.join('source_images', folder, f"{answer}.png")
-            image_path_jpg = os.path.join('source_images', folder, f"{answer}.jpg")
+            image_path_png = os.path.join('source_images', self.quiz_id, folder, f"{answer}.png")
+            image_path_jpg = os.path.join('source_images', self.quiz_id, folder, f"{answer}.jpg")
 
         if os.path.exists(image_path_png):
             return image_path_png
@@ -27,9 +42,13 @@ class ImageGenerator:
             return image_path_jpg
         return None
     
-    def generate_image(self, responses, phone_number):
+    def generate_image(self, responses: dict, phone_number: str) -> str:
         """
         Generates an image collage based on the given responses.
+        
+        :param responses: Dictionary of responses.
+        :param phone_number: Phone number string.
+        :return: Path to the generated image file.
         """
         # Remove all non-digit characters from phone number
         phone_number = re.sub(r'\D', '', phone_number)
@@ -129,10 +148,12 @@ def main():
     
     test_data_dict = {item['q']: item['a'] for item in test_data["answers"]}
     phone_number = test_data["contacts"]["phone"]
+    quiz_id = test_data["quiz"]["id"]
 
-    generator = ImageGenerator()
+    generator = ImageGenerator(quiz_id=quiz_id)
     image_path = generator.generate_image(test_data_dict, phone_number)
     print(f"Image saved at: {image_path}")
 
+# Usage example python -m src.image_generator
 if __name__ == '__main__':
     main()
