@@ -1,6 +1,6 @@
-# src/app.py
+# app.py
 
-from flask import Flask, request, jsonify, send_from_directory, url_for, render_template_string
+from flask import Flask, request, jsonify, send_from_directory, url_for
 import os
 import logging
 import io
@@ -16,7 +16,7 @@ from src.models.user import db, User
 from src.models.quiz import Quiz
 from src.models.image import Image
 from src.image_generator import ImageGenerator
-from src.auth import requires_auth
+from src.auth import requires_auth, check_auth, authenticate
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -71,18 +71,21 @@ class MyAdminIndexView(AdminIndexView):
         return self.render('admin/index.html', chart_data=chart_data, total_users=total_users, total_images=total_images, total_quizzes=total_quizzes, quiz_data=quiz_data)
 
 # Custom ModelView with authentication and custom rendering
-class MyModelView(ModelView):
-    @requires_auth
+class AuthModelView(ModelView):
     def is_accessible(self):
-        return True
+        auth = request.authorization
+        return auth and check_auth(auth.username, auth.password)
+
+    def inaccessible_callback(self, name, **kwargs):
+        return authenticate()  # Return 401 response
 
 # Custom QuizView to include quiz ID
-class QuizView(MyModelView):
+class QuizView(AuthModelView):
     column_list = ('id', 'name', 'created')
     form_columns = ('id', 'name', 'created')
 
 # Custom ImageView with image thumbnail, download icon, user name linked to user edit page, and quiz name
-class ImageView(MyModelView):
+class ImageView(AuthModelView):
     column_formatters = {
         'image_path': lambda v, c, m, p: Markup(
             f'<a href="#" onclick="showModal(\'{url_for("uploaded_file", quiz_id=m.quiz_id, filename=os.path.basename(m.image_path))}\')">'
@@ -116,7 +119,7 @@ admin = Admin(
     index_view=MyAdminIndexView(), 
     base_template='admin/custom_base.html'  # Specify your custom base template
 )
-admin.add_view(MyModelView(User, db.session, endpoint="user"))
+admin.add_view(AuthModelView(User, db.session, endpoint="user"))
 admin.add_view(QuizView(Quiz, db.session))
 admin.add_view(ImageView(db.session))
 
