@@ -445,36 +445,3 @@ cp /path/to/new/image.png 1.png
 
 **source_images/** — Папка для хранения фоновых изображений и других изображений.
 
-
-сервер « Collage» с Ubuntu 24.04 LTS, IP-адрес 89.111.175.202
-Доступ к серверу
-Логин: root
-Пароль: pYIDmyD9H0QzQJDi
-
-ssh webuser@89.111.175.202
-Логин: webuser
-L:LKj[_)+p[oko67i
-
-https://5ddd-89-111-175-202.ngrok-free.app/webhook
-
-
-Вам нужно зарегистрироваться здесь: https://dashboard.ngrok.com/tunnels/authtokens
-и сгенерировать новый authtoken и прислать его мне
-
-https://5ddd-89-111-175-202.ngrok-free.app/images/79111234567_1.png
-
-
-Скандинавский 
-https://mrqz.me/66377f58f77e650026c3c7c0
-
-Лофт 
-https://mrqz.me/66a75a6e18108a0026d95d74
-
-Минимализм 
-https://mrqz.me/66a75aa95ac9fb00268cf1f8 
-
-Неоклассик
-https://mrqz.me/66a75abd17df430026dbf6a3 
-
-Современный 
-https://mrqz.me/66a75ad49f61830026a976a9
